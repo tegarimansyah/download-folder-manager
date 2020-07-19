@@ -19,7 +19,14 @@ def extract_file_data(filepath):
         'filepath': filepath
     }
 
+def ext_mapping(list_of_files):
+    return set( file_object.get('ext').lower() for file_object in list_of_files)
+
 if __name__ == "__main__":
     filepaths = glob.glob(DOWNLOAD_FOLDER_PATH + '*')
+    filepaths.sort(key=os.path.getmtime) # sort by time modified, unix time, asc (last is newest)
+
     files = map(extract_file_data, filepaths)
-    pp.pprint(list(files))
+    extension = ext_mapping(tuple(files))
+    
+    pp.pprint(extension)
